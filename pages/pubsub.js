@@ -1,22 +1,22 @@
-import React, {Component} from 'react'
-import {StyleSheet, Text, View, Button} from 'react-native'
+import React, { Component } from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
 
-import {online, xml, pubsub} from '../xmpp'
-import DataForm from '../components/DataForm'
+import { online, xml, pubsub } from "../xmpp";
+import DataForm from "../components/DataForm";
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   text: {
-    alignItems: 'center',
-    fontSize: 24,
-  },
-})
+    alignItems: "center",
+    fontSize: 24
+  }
+});
 
-const NS_ATOM = 'http://www.w3.org/2005/Atom'
+const NS_ATOM = "http://www.w3.org/2005/Atom";
 
-const service = undefined
+const service = undefined;
 
 export default class Roster extends Component {
   state = {
@@ -24,15 +24,15 @@ export default class Roster extends Component {
     infos: {},
     items: [],
     form: null,
-    selectedNode: null,
-  }
+    selectedNode: null
+  };
 
   async componentDidMount() {
-    await online()
+    await online();
 
     // await pubsub.info()
 
-    const nodes = await this.updateNodes()
+    const nodes = await this.updateNodes();
 
     // for (const node of nodes) {
     //   try {
@@ -48,23 +48,23 @@ export default class Roster extends Component {
   }
 
   async updateNodes() {
-    const nodes = (await pubsub.nodes()).children
+    const nodes = (await pubsub.nodes()).children;
 
     this.setState({
-      nodes,
-    })
+      nodes
+    });
 
-    return nodes
+    return nodes;
   }
 
   async updateItems(node) {
     this.setState({
-      items: (await pubsub.items({node})).children,
-    })
+      items: (await pubsub.items({ node })).children
+    });
   }
 
   onPressAddNode = async () => {
-    const title = Math.random().toString()
+    const title = Math.random().toString();
 
     const nodeId = await pubsub.create(
       {},
@@ -80,61 +80,61 @@ export default class Roster extends Component {
         max_items: 100,
         item_expire: 0,
         subscribe: true,
-        access_model: 'whitelist',
+        access_model: "whitelist",
         // 'roster_groups_allowed': ,
         // 'publish_model': ,
         purge_offline: false,
         max_payload_size: 1028,
-        send_last_published_item: 'on_sub_and_presence',
-        notification_type: 'headline',
+        send_last_published_item: "on_sub_and_presence",
+        notification_type: "headline",
         presence_based_delivery: false,
-        type: NS_ATOM,
+        type: NS_ATOM
       }
-    )
+    );
 
-    this.updateNodes()
-  }
+    this.updateNodes();
+  };
 
   onPressNode = async nodeId => {
-    this.setState({selectedNode: nodeId})
+    this.setState({ selectedNode: nodeId });
 
     this.setState({
-      form: (await pubsub.configure({node: nodeId})).getChild(
-        'x',
-        'jabber:x:data'
-      ),
-    })
+      form: (await pubsub.configure({ node: nodeId }))
+        .getChild("pubsub")
+        .getChild("configure")
+        .getChild("x", "jabber:x:data")
+    });
 
-    this.updateItems(nodeId)
-  }
+    this.updateItems(nodeId);
+  };
 
   onPressAddItem = async () => {
-    const {selectedNode} = this.state
+    const { selectedNode } = this.state;
     if (!selectedNode) {
-      return
+      return;
     }
 
     const item = xml(
-      'item',
+      "item",
       {},
       xml(
-        'entry',
-        {xmlns: NS_ATOM},
-        xml('summary', {}, Math.random().toString())
+        "entry",
+        { xmlns: NS_ATOM },
+        xml("summary", {}, Math.random().toString())
       )
-    )
+    );
 
-    const itemId = await pubsub.publish({node: selectedNode}, item)
-    this.updateItems(selectedNode)
-  }
+    const itemId = await pubsub.publish({ node: selectedNode }, item);
+    this.updateItems(selectedNode);
+  };
 
   render() {
-    const {nodes, items, form, infos, selectedNode} = this.state
+    const { nodes, items, form, infos, selectedNode } = this.state;
 
     return (
-      <View style={{...styles.container, flexDirection: 'row'}}>
-        <View style={{...styles.container, width: 400}}>
-          <Button onPress={this.onPressAddNode} title={'Add node'} />
+      <View style={{ ...styles.container, flexDirection: "row" }}>
+        <View style={{ ...styles.container, width: 400 }}>
+          <Button onPress={this.onPressAddNode} title={"Add node"} />
           {nodes.map(item => {
             // let name = item.attrs.node
             // try {
@@ -153,19 +153,19 @@ export default class Roster extends Component {
               >
                 {item.attrs.node}
               </Text>
-            )
+            );
           })}
         </View>
 
         <View style={styles.container}>
           <View style={styles.container}>
             <Text style={styles.text}>Items</Text>
-            <Button onPress={this.onPressAddItem} title={'Add item'} />
+            <Button onPress={this.onPressAddItem} title={"Add item"} />
             {items.map(item => {
-              const {id} = item.attrs
-              const entry = item.getChild('entry', NS_ATOM)
-              const summary = entry ? entry.getChildText('summary') : ''
-              return <Text key={id}>{summary}</Text>
+              const { id } = item.attrs;
+              const entry = item.getChild("entry", NS_ATOM);
+              const summary = entry ? entry.getChildText("summary") : "";
+              return <Text key={id}>{summary}</Text>;
             })}
           </View>
 
@@ -175,6 +175,6 @@ export default class Roster extends Component {
           </View>
         </View>
       </View>
-    )
+    );
   }
 }
