@@ -1,0 +1,12 @@
+parserOptions:
+  sourceType: module
+  ecmaFeatures:
+    jsx: true
+
+plugins:
+  "react"
+  "react-native"
+
+rules:
+  node/no-unsupported-features/es-syntax: 0
+  require-await: 0
