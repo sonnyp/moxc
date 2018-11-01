@@ -1,69 +1,67 @@
-import React, { Component } from "react";
-import { Text, View, Button, TextInput } from "react-native";
+import React, {Component} from 'react'
+import {Text, View, Button, TextInput} from 'react-native'
 
-import { online, xml, pubsub } from "../xmpp";
-import styles from "../styles";
-import { Router } from "../routes";
+import {online, xml, pubsub} from '../xmpp'
+import styles from '../styles'
+import {Router} from '../routes'
 
-const NS_ATOM = "http://www.w3.org/2005/Atom";
+const NS_ATOM = 'http://www.w3.org/2005/Atom'
 
-const service = undefined;
+const service = undefined
 
 export default class Publish extends Component {
-  static getInitialProps({ query }) {
-    const { node } = query;
-    return { node };
+  static getInitialProps({query}) {
+    return query
   }
 
   state = {
-    title: "",
-    content: ""
-  };
+    title: '',
+    content: '',
+  }
 
   componentDidMount() {
-    online();
+    online()
   }
 
   onPressPublish = async () => {
-    const { node } = this.props;
-    const { title, content } = this.state;
+    const {title, content} = this.state
 
     const item = xml(
-      "item",
+      'item',
       {},
       xml(
-        "entry",
-        { xmlns: NS_ATOM },
-        xml("title", {}, title),
-        xml("content", {}, content)
+        'entry',
+        {xmlns: NS_ATOM},
+        xml('title', {}, title),
+        xml('content', {}, content)
       )
-    );
+    )
 
-    const itemId = await pubsub.publish({ node }, item);
+    const itemId = await pubsub.publish(this.props, item)
 
-    Router.pushRoute("items", { node });
-  };
+    Router.pushRoute('items', this.props)
+  }
 
   render() {
-    const { title, content } = this.state;
+    const {title, content} = this.state
 
     return (
-      <View style={{ ...styles.container }}>
+      <View style={{...styles.container}}>
         <Text style={styles.header}>Publish</Text>
         <Text>Title</Text>
         <TextInput
-          onChangeText={title => this.setState({ title })}
+          onChangeText={title => this.setState({title})}
           value={title}
           style={styles.input}
         />
         <Text>Content</Text>
         <TextInput
-          onChangeText={content => this.setState({ content })}
+          onChangeText={content => this.setState({content})}
           value={content}
           style={styles.input}
         />
-        <Button onPress={this.onPressPublish} title={"Publish"} />
+        <Button onPress={this.onPressPublish} title={'Publish'} />
       </View>
-    );
+    )
   }
 }

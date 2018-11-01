@@ -8,7 +8,7 @@ import {Link} from '../routes'
 const NS_ATOM = 'http://www.w3.org/2005/Atom'
 
 export default function PubsubItemsList(props) {
-  const {items, node} = props
+  const {items, node, to} = props
   return (
     <FlatList
       data={items}
@@ -18,7 +18,7 @@ export default function PubsubItemsList(props) {
         const entry = item.getChild('entry', NS_ATOM)
         const title = entry && entry.getChildText('title')
         return (
-          <Link route="item" params={{node, item: id}}>
+          <Link route="item" params={{to, node, item: id}}>
             <a>
               <View style={styles.listItem}>
                 <Text>{title || id}</Text>

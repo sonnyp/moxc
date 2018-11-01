@@ -92,7 +92,6 @@ class DataForm extends Component {
               <TextInput
                 style={styles.input}
                 keyboardType="email-address"
-                placeholder={label}
                 value={this.state[key] || ''}
                 onChangeText={value => this.setState({[key]: value})}
               />
@@ -102,7 +101,6 @@ class DataForm extends Component {
               <TextInput
                 style={styles.input}
                 secureTextEntry={true}
-                placeholder={label}
                 value={this.state[key] || ''}
                 onChangeText={value => this.setState({[key]: value})}
               />
@@ -111,7 +109,6 @@ class DataForm extends Component {
             input = (
               <TextInput
                 style={styles.input}
-                placeholder={label}
                 value={this.state[key] || ''}
                 onChangeText={value => this.setState({[key]: value})}
               />

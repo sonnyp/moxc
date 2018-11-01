@@ -10,8 +10,7 @@ const NS_ATOM = 'http://www.w3.org/2005/Atom'
 
 export default class Item extends Component {
   static getInitialProps({query}) {
-    const {node, item} = query
-    return {node, item}
+    return query
   }
 
   state = {
@@ -21,9 +20,9 @@ export default class Item extends Component {
   async componentDidMount() {
     await online()
 
-    const {node, item} = this.props
+    const {item} = this.props
 
-    const itemEl = await pubsub.item({node}, item)
+    const itemEl = await pubsub.item(this.props, item)
     if (!itemEl) return
 
     const entry = itemEl.getChild('entry', NS_ATOM)
@@ -33,9 +32,9 @@ export default class Item extends Component {
   }
 
   onPressRetract = async () => {
-    const {node, item} = this.props
-    await pubsub.retract({node}, item)
-    Router.pushRoute('items', {node})
+    const {item} = this.props
+    await pubsub.retract(this.props, item)
+    Router.pushRoute('items', this.props)
   }
 
   render() {

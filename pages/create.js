@@ -8,6 +8,10 @@ import styles from '../styles'
 import DataForm from '../components/DataForm'
 
 export default class Create extends Component {
+  static getInitialProps({query}) {
+    return query
+  }
+
   state = {
     form: null,
   }
@@ -20,13 +24,17 @@ export default class Create extends Component {
 
   async updateConfiguration() {
     this.setState({
-      form: await pubsub.getDefaultConfigurationForm({}),
+      form: await pubsub.getDefaultConfigurationForm(this.props),
     })
   }
 
   async onSubmit(dataForm) {
-    const nodeId = await pubsub.createWithForm({}, dataForm)
-    Router.pushRoute('items', {node: nodeId})
+    const nodeId = await pubsub.createWithForm(this.props, dataForm)
+    Router.pushRoute('items', {...this.props, node: nodeId})
+  }
+
+  onCancel() {
+    Router.pushRoute('nodes', this.props)
   }
 
   render() {
@@ -39,7 +47,7 @@ export default class Create extends Component {
           <DataForm
             form={form}
             onSubmit={dataForm => this.onSubmit(dataForm)}
-            onCancel={() => alert('cancel')}
+            onCancel={() => this.onCancel()}
           />
         )}
       </View>

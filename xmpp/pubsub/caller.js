@@ -265,7 +265,7 @@ export default function({iqCaller, disco, middleware}) {
           xml('pubsub', {xmlns: NS_PUBSUB_OWNER}, xml('subscriptions', {node}))
         )
       ))
-        .getChild('pubsub', NS_PUBSUB)
+        .getChild('pubsub', NS_PUBSUB_OWNER)
         .getChild('subscriptions')
     },
 
@@ -289,7 +289,7 @@ export default function({iqCaller, disco, middleware}) {
           xml('pubsub', {xmlns: NS_PUBSUB_OWNER}, xml('affiliations', {node}))
         )
       ))
-        .getChild('pubsub', NS_PUBSUB)
+        .getChild('pubsub', NS_PUBSUB_OWNER)
         .getChild('affiliations')
     },
 

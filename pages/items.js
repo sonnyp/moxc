@@ -1,49 +1,49 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, FlatList } from "react-native";
+import React, {Component} from 'react'
+import {StyleSheet, Text, View, Button, FlatList} from 'react-native'
 
-import { online, xml, pubsub } from "../xmpp";
-import { Link, Router } from "../routes";
-import styles from "../styles";
-import PubsubItemsList from "../components/PubsubItemsList";
+import {online, xml, pubsub} from '../xmpp'
+import {Link, Router} from '../routes'
+import styles from '../styles'
+import PubsubItemsList from '../components/PubsubItemsList'
 
 export default class Items extends Component {
-  static getInitialProps({ query }) {
-    const { node } = query;
-    return { node };
+  static getInitialProps({query}) {
+    return query
   }
 
   state = {
-    items: []
-  };
+    items: [],
+  }
 
   async componentDidMount() {
-    await online();
+    await online()
 
-    this.updateItems();
+    this.updateItems()
   }
 
   async updateItems() {
-    const { node } = this.props;
-
     this.setState({
-      items: (await pubsub.items({ node })).children
-    });
+      items: (await pubsub.items(this.props)).children,
+    })
   }
 
   render() {
-    const { node } = this.props;
-    const { items } = this.state;
+    const {items} = this.state
 
     return (
-      <View style={{ ...styles.container }}>
+      <View style={{...styles.container}}>
         <Text style={styles.header}>Items</Text>
-        <Link route="publish" params={{ node }}>
+        <Link route="publish" params={this.props}>
           <a>
-            <Button title={"Publish new item"} />
+            <Button title={'Publish new item'} />
           </a>
         </Link>
-        <PubsubItemsList node={node} items={items} />
+        <PubsubItemsList
+          to={this.props.to}
+          node={this.props.node}
+          items={items}
+        />
       </View>
-    );
+    )
   }
 }

@@ -11,6 +11,10 @@ export default class Nodes extends Component {
     nodes: [],
   }
 
+  static getInitialProps({query}) {
+    return query
+  }
+
   async componentDidMount() {
     await online()
 
@@ -18,26 +22,16 @@ export default class Nodes extends Component {
   }
 
   async updateNodes() {
-    const nodes = (await pubsub.nodes()).children
+    const nodes = (await pubsub.nodes(this.props)).children
 
-    console.log(await pubsub.getOwnSubscriptions())
-    try {
-      console.log(await pubsub.getOwnAffiliations())
-    } catch (err) {}
+    // console.log(await pubsub.getOwnSubscriptions())
+    // try {
+    //   console.log(await pubsub.getOwnAffiliations())
+    // } catch (err) {}
 
     this.setState({
       nodes,
     })
-
-    // for (const node of nodes) {
-    //   try {
-    //     const config = await pubsub.getConfiguration({node: node.attrs.node})
-    //     const {configs} = this.state
-    //     this.setState({configs: {...configs, [node.attrs.node]: config}})
-    //   } catch (err) {
-    //     console.error(err)
-    //   }
-    // }
   }
 
   render() {
@@ -46,7 +40,7 @@ export default class Nodes extends Component {
     return (
       <View style={{...styles.container}}>
         <Text style={styles.header}>Nodes</Text>
-        <Link route="create">
+        <Link route="create" params={this.props}>
           <a>
             <Button title={'Create node'} />
           </a>

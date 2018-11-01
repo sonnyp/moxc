@@ -5,19 +5,19 @@ import {FlatList, View, Text} from 'react-native'
 import styles from '../styles'
 import {Link} from '../routes'
 
-export default function DiscoNodesList(props) {
-  const {nodes} = props
+export default function PubsubAffiliationsList(props) {
+  const {affiliations, node, to} = props
   return (
     <FlatList
-      data={nodes}
-      keyExtractor={item => item.attrs.node}
+      data={affiliations}
+      keyExtractor={item => item.attrs.jid}
       renderItem={({item}) => {
-        const {name, node, jid} = item.attrs
+        const {affiliation, jid} = item.attrs
         return (
-          <Link route="items" params={{node, to: jid}}>
+          <Link route="entity" params={{to: jid}}>
             <a>
               <View style={styles.listItem}>
-                <Text>{name || node}</Text>
+                <Text>{`${jid}: ${affiliation}`}</Text>
               </View>
             </a>
           </Link>
