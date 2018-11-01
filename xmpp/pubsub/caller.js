@@ -9,24 +9,25 @@ const NS_PUBSUB = 'http://jabber.org/protocol/pubsub'
 const NS_PUBSUB_EVENT = `${NS_PUBSUB}#event`
 const NS_PUBSUB_OWNER = `${NS_PUBSUB}#owner`
 const NS_PUBSUB_NODE_CONFIG = `${NS_PUBSUB}#node_config`
+const NS_X_DATA = 'jabber:x:data'
 
 function isPubSubEventNotification(stanza) {
   const child = stanza.getChild('event')
   return stanza.is('message') && child && child.attrs.xmlns === NS_PUBSUB_EVENT
 }
 
-export function parseConfigure(configure) {
-  const [, fields] = parseDataForm(configure)
-  return fields.reduce((accumulator, field) => {
-    if (field.var === 'FORM_TYPE' && field.value === NS_PUBSUB_NODE_CONFIG) {
+export function parsePubsubDataForm(dataForm) {
+  const [, fields] = parseDataForm(dataForm)
+  return fields.reduce((accumulator, {key, value}) => {
+    if (key === 'FORM_TYPE' && value === NS_PUBSUB_NODE_CONFIG) {
       return accumulator
     }
-    accumulator[field.var.split('pubsub#')[1]] = field.value
+    accumulator[key.split('pubsub#')[1]] = value
     return accumulator
   }, {})
 }
 
-export function buildConfigure(options, fields) {
+export function buildPubsubDataForm(options, fields) {
   return buildDataForm(options, [
     {var: 'FORM_TYPE', value: NS_PUBSUB_NODE_CONFIG},
     ...Object.entries(fields).map(([key, value]) => ({
@@ -82,6 +83,13 @@ export default function({iqCaller, disco, middleware}) {
     },
 
     async create({to, node}, config) {
+      return this.createWithForm(
+        {to, node},
+        config && buildPubsubDataForm({type: 'submit'}, config)
+      )
+    },
+
+    async createWithForm({to, node}, form) {
       return (await iqCaller.request(
         xml(
           'iq',
@@ -90,8 +98,7 @@ export default function({iqCaller, disco, middleware}) {
             'pubsub',
             {xmlns: NS_PUBSUB},
             xml('create', {node}),
-            config &&
-              xml('configure', {}, buildConfigure({type: 'submit'}, config))
+            form && xml('configure', {}, form)
           )
         )
       ))
@@ -195,33 +202,107 @@ export default function({iqCaller, disco, middleware}) {
       )
     },
 
-    async configure({to, node}, configure) {
-      return iqCaller.request(
+    async getDefaultConfigurationForm({to} = {}) {
+      return (await iqCaller.request(
         xml(
           'iq',
           {type: 'get', to},
+          xml('pubsub', {xmlns: NS_PUBSUB_OWNER}, xml('default'))
+        )
+      ))
+        .getChild('pubsub', NS_PUBSUB_OWNER)
+        .getChild('default')
+        .getChild('x', NS_X_DATA)
+    },
+
+    async getConfigurationForm({to, node}) {
+      return (await iqCaller.request(
+        xml(
+          'iq',
+          {type: 'get', to},
+          xml('pubsub', {xmlns: NS_PUBSUB_OWNER}, xml('configure', {node}))
+        )
+      ))
+        .getChild('pubsub', NS_PUBSUB_OWNER)
+        .getChild('configure')
+        .getChild('x', NS_X_DATA)
+    },
+
+    async setConfigurationForm({to, node}, submitForm) {
+      return iqCaller.request(
+        xml(
+          'iq',
+          {type: 'set', to},
           xml(
             'pubsub',
             {xmlns: NS_PUBSUB_OWNER},
-            xml('configure', {node}, configure)
+            xml('configure', {node}, submitForm)
           )
         )
       )
     },
 
+    async getConfiguration({to, node}) {
+      return parsePubsubDataForm(await this.getConfigurationForm({to, node}))
+    },
+
+    async getDefaultConfiguration({to}) {
+      return parsePubsubDataForm(await this.getDefaultConfigurationForm({to}))
+    },
+
     async setConfiguration({to, node}, config) {
-      return this.configure(
+      return this.setConfigurationForm(
         {to, node},
-        buildConfigure({type: 'submit'}, config)
+        buildPubsubDataForm({type: 'submit'}, config)
       )
     },
 
-    async getConfiguration({to, node}) {
-      return parseConfigure(
-        (await this.configure({to, node}))
-          .getChild('pubsub', NS_PUBSUB_OWNER)
-          .getChild('configure')
-      )
+    async getSubscriptions({to, node} = {}) {
+      return (await iqCaller.request(
+        xml(
+          'iq',
+          {type: 'get', to},
+          xml('pubsub', {xmlns: NS_PUBSUB_OWNER}, xml('subscriptions', {node}))
+        )
+      ))
+        .getChild('pubsub', NS_PUBSUB)
+        .getChild('subscriptions')
+    },
+
+    async getOwnSubscriptions({to, node} = {}) {
+      return (await iqCaller.request(
+        xml(
+          'iq',
+          {type: 'get', to},
+          xml('pubsub', {xmlns: NS_PUBSUB}, xml('subscriptions', {node}))
+        )
+      ))
+        .getChild('pubsub', NS_PUBSUB)
+        .getChild('subscriptions')
+    },
+
+    async getAffiliations({to, node} = {}) {
+      return (await iqCaller.request(
+        xml(
+          'iq',
+          {type: 'get', to},
+          xml('pubsub', {xmlns: NS_PUBSUB_OWNER}, xml('affiliations', {node}))
+        )
+      ))
+        .getChild('pubsub', NS_PUBSUB)
+        .getChild('affiliations')
+    },
+
+    async getOwnAffiliations({to, node} = {}) {
+      return (await iqCaller.request(
+        xml(
+          'iq',
+          {type: 'get', to},
+          xml('pubsub', {xmlns: NS_PUBSUB}, xml('affiliations', {node}))
+        )
+      ))
+        .getChild('pubsub', NS_PUBSUB)
+        .getChild('affiliations')
     },
   })
 }

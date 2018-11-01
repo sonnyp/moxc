@@ -1,66 +1,47 @@
 import React, {Component} from 'react'
-import {Text, View, Button, TextInput} from 'react-native'
+import {StyleSheet, Text, View, Button, FlatList} from 'react-native'
 
 import {online, xml, pubsub} from '../xmpp'
+import {Link, Router} from '../routes'
 import styles from '../styles'
-import {Router} from '../routes'
 
-const NS_ATOM = 'http://www.w3.org/2005/Atom'
+import DataForm from '../components/DataForm'
 
-export default class Roster extends Component {
+export default class Create extends Component {
   state = {
-    title: '',
+    form: null,
   }
 
-  componentDidMount() {
-    online()
+  async componentDidMount() {
+    await online()
+
+    this.updateConfiguration()
   }
 
-  onPressCreate = async () => {
-    const {title} = this.state
+  async updateConfiguration() {
+    this.setState({
+      form: await pubsub.getDefaultConfigurationForm({}),
+    })
+  }
 
-    const nodeId = await pubsub.create(
-      {},
-      {
-        title: title,
-        deliver_notifications: true,
-        deliver_payloads: true,
-        notify_config: true,
-        notify_delete: true,
-        notify_retract: true,
-        notify_sub: true,
-        persist_items: true,
-        max_items: 100,
-        item_expire: 0,
-        subscribe: true,
-        access_model: 'whitelist',
-        // 'roster_groups_allowed': ,
-        // 'publish_model': ,
-        purge_offline: false,
-        max_payload_size: 1028,
-        send_last_published_item: 'on_sub_and_presence',
-        notification_type: 'headline',
-        presence_based_delivery: false,
-        type: NS_ATOM,
-      }
-    )
-
-    Router.pushRoute('/nodes')
+  async onSubmit(dataForm) {
+    const nodeId = await pubsub.createWithForm({}, dataForm)
+    Router.pushRoute('items', {node: nodeId})
   }
 
   render() {
-    const {title} = this.state
+    const {form} = this.state
 
     return (
-      <View style={{...styles.container}}>
+      <View style={styles.container}>
         <Text style={styles.header}>Create</Text>
-        <Text>Title</Text>
-        <TextInput
-          onChangeText={title => this.setState({title})}
-          value={title}
-          style={styles.input}
-        />
-        <Button onPress={this.onPressCreate} title={'Create'} />
+        {form && (
+          <DataForm
+            form={form}
+            onSubmit={dataForm => this.onSubmit(dataForm)}
+            onCancel={() => alert('cancel')}
+          />
+        )}
       </View>
     )
   }

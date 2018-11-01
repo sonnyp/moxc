@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, TouchableHighlight} from 'react-native'
 // import {ListItem} from 'react-native-elements'
 
 import {disco, adHoc, xmpp, online} from '../xmpp'
-import {formToReactNative} from '../data-forms'
+import DataForm from '../components/DataForm'
 
 import Router from 'next/router'
 
@@ -144,7 +144,7 @@ export default class ServiceDiscoveryBrowser extends Component {
           </View>
         </View>
         <View style={{...styles.container}}>
-          {!command ? null : formToReactNative(command.getChild('x'))}
+          {!command ? null : <DataForm form={command.getChild('x')}/>}
         </View>
       </View>
     )

@@ -6,7 +6,7 @@ import {Link, Router} from '../routes'
 import styles from '../styles'
 import DiscoNodesList from '../components/DiscoNodesList'
 
-export default class Roster extends Component {
+export default class Nodes extends Component {
   state = {
     nodes: [],
   }
@@ -19,6 +19,11 @@ export default class Roster extends Component {
 
   async updateNodes() {
     const nodes = (await pubsub.nodes()).children
+
+    console.log(await pubsub.getOwnSubscriptions())
+    try {
+      console.log(await pubsub.getOwnAffiliations())
+    } catch (err) {}
 
     this.setState({
       nodes,

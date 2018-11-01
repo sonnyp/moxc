@@ -8,7 +8,7 @@ import AtomEntry from '../components/AtomEntry'
 
 const NS_ATOM = 'http://www.w3.org/2005/Atom'
 
-export default class Roster extends Component {
+export default class Item extends Component {
   static getInitialProps({query}) {
     const {node, item} = query
     return {node, item}

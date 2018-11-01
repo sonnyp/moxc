@@ -18,7 +18,7 @@ const NS_ATOM = "http://www.w3.org/2005/Atom";
 
 const service = undefined;
 
-export default class Roster extends Component {
+export default class Pubsub extends Component {
   state = {
     nodes: [],
     infos: {},

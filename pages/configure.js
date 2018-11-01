@@ -2,11 +2,12 @@ import React, {Component} from 'react'
 import {StyleSheet, Text, View, Button, FlatList} from 'react-native'
 
 import {online, xml, pubsub} from '../xmpp'
+import {Link, Router} from '../routes'
 import styles from '../styles'
 
 import DataForm from '../components/DataForm'
 
-export default class Roster extends Component {
+export default class Configure extends Component {
   static getInitialProps({query}) {
     const {node} = query
     return {node}
@@ -26,11 +27,14 @@ export default class Roster extends Component {
     const {node} = this.props
 
     this.setState({
-      form: (await pubsub.configure({node}))
-        .getChild('pubsub')
-        .getChild('configure')
-        .getChild('x', 'jabber:x:data'),
+      form: await pubsub.getConfigurationForm({node}),
     })
+  }
+
+  async onSubmit(dataForm) {
+    const {node} = this.props
+    await pubsub.setConfigurationForm({node}, dataForm)
+    Router.pushRoute('items', {node: nodeId})
   }
 
   render() {
@@ -39,7 +43,13 @@ export default class Roster extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Configure</Text>
-        <DataForm form={form} />
+        {form && (
+          <DataForm
+            form={form}
+            onSubmit={dataForm => this.onSubmit(dataForm)}
+            onCancel={() => alert('cancel')}
+          />
+        )}
       </View>
     )
   }
