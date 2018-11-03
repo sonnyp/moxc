@@ -1,8 +1,6 @@
-'use strict'
+import {FlatList} from 'react-native'
+import {ListItem} from 'react-native-elements'
 
-import {FlatList, View, Text} from 'react-native'
-
-import styles from '../styles'
 import {Link} from '../routes'
 
 const NS_ATOM = 'http://www.w3.org/2005/Atom'
@@ -20,9 +18,7 @@ export default function PubsubItemsList(props) {
         return (
           <Link route="item" params={{to, node, item: id}}>
             <a>
-              <View style={styles.listItem}>
-                <Text>{title || id}</Text>
-              </View>
+              <ListItem chevron title={title} subtitle={id} />
             </a>
           </Link>
         )

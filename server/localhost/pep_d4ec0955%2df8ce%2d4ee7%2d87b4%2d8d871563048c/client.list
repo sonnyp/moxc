@@ -1,0 +1,17 @@
+item({
+	{
+		"0.9949922289991323";
+		["attr"] = {
+			["xmlns"] = "http://www.w3.org/2005/Atom";
+		};
+		["name"] = "summary";
+	};
+	["when"] = 1540851721;
+	["key"] = "33a59e27-903b-4a96-8858-9f4fda056f65";
+	["name"] = "entry";
+	["attr"] = {
+		["stamp_legacy"] = "20181029T22:22:01";
+		["stamp"] = "2018-10-29T22:22:01Z";
+		["xmlns"] = "http://www.w3.org/2005/Atom";
+	};
+});

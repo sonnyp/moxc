@@ -1,22 +1,10 @@
-'use strict'
-
 import {Component} from 'react'
-import {
-  FlatList,
-  View,
-  Text,
-  Switch,
-  TextInput,
-  Picker,
-  Button,
-} from 'react-native'
+import {View, Switch, Picker} from 'react-native'
+import {Input, Text, Button} from 'react-native-elements'
 
 import xml from '@xmpp/xml'
 
-import buildDataForm from '../xmpp/data-forms/build'
 import parseDataForm from '../xmpp/data-forms/parse'
-import styles from '../styles'
-import {Link} from '../routes'
 
 const NS_X_DATA = 'jabber:x:data'
 
@@ -76,21 +64,23 @@ class DataForm extends Component {
 
           if (type === 'list-single') {
             input = (
-              <Picker
-                selectedValue={this.state[key] || ''}
-                style={{height: 50, width: 100}}
-                onValueChange={value => this.setState({[key]: value})}
-              >
-                ><Picker.Item label="" value="" />
-                {options.map(({label, value}) => {
-                  return <Picker.Item label={label} value={value} />
-                })}
-              </Picker>
+              <View key={key}>
+                <Text label>{label}</Text>
+                <Picker
+                  selectedValue={this.state[key] || ''}
+                  onValueChange={value => this.setState({[key]: value})}
+                >
+                  ><Picker.Item label="" value="" />
+                  {options.map(({label, value}) => {
+                    return <Picker.Item label={label} value={value} />
+                  })}
+                </Picker>
+              </View>
             )
           } else if (type === 'jid-single') {
             input = (
-              <TextInput
-                style={styles.input}
+              <Input
+                label={label}
                 keyboardType="email-address"
                 value={this.state[key] || ''}
                 onChangeText={value => this.setState({[key]: value})}
@@ -98,8 +88,8 @@ class DataForm extends Component {
             )
           } else if (type === 'text-private') {
             input = (
-              <TextInput
-                style={styles.input}
+              <Input
+                label={label}
                 secureTextEntry={true}
                 value={this.state[key] || ''}
                 onChangeText={value => this.setState({[key]: value})}
@@ -107,27 +97,25 @@ class DataForm extends Component {
             )
           } else if (type === 'text-single') {
             input = (
-              <TextInput
-                style={styles.input}
+              <Input
+                label={label}
                 value={this.state[key] || ''}
                 onChangeText={value => this.setState({[key]: value})}
               />
             )
           } else if (type === 'boolean') {
             input = (
-              <Switch
-                value={this.state[key]}
-                onValueChange={value => this.setState({[key]: value})}
-              />
+              <View key={key}>
+                <Text label>{label}</Text>
+                <Switch
+                  value={this.state[key]}
+                  onValueChange={value => this.setState({[key]: value})}
+                />
+              </View>
             )
           }
 
-          return (
-            <View key={key}>
-              <Text>{label}</Text>
-              {input}
-            </View>
-          )
+          return input
         })}
 
         <View style={{flexDirection: 'row'}}>

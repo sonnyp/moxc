@@ -1,8 +1,6 @@
-'use strict'
+import {FlatList} from 'react-native'
+import {ListItem} from 'react-native-elements'
 
-import {FlatList, View, Text} from 'react-native'
-
-import styles from '../styles'
 import {Link} from '../routes'
 
 export default function DiscoNodesList(props) {
@@ -16,9 +14,7 @@ export default function DiscoNodesList(props) {
         return (
           <Link route="node" params={{node, to: jid}}>
             <a>
-              <View style={styles.listItem}>
-                <Text>{name || node}</Text>
-              </View>
+              <ListItem chevron title={name} subtitle={node} />
             </a>
           </Link>
         )

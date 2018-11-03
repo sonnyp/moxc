@@ -1,8 +1,6 @@
-'use strict'
+import {FlatList} from 'react-native'
+import {ListItem} from 'react-native-elements'
 
-import {FlatList, View, Text} from 'react-native'
-
-import styles from '../styles'
 import {Link} from '../routes'
 
 export default function PubsubSubscriptionsList(props) {
@@ -16,9 +14,7 @@ export default function PubsubSubscriptionsList(props) {
         return (
           <Link route="entity" params={{to: jid}}>
             <a>
-              <View style={styles.listItem}>
-                <Text>{`${jid}: ${subscription}`}</Text>
-              </View>
+              <ListItem chevron title={jid} subtitle={subscription} />
             </a>
           </Link>
         )

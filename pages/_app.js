@@ -1,6 +1,8 @@
 import React from 'react'
 import NextApp, {Container} from 'next/app'
 
+import {ThemeProvider, Header} from 'react-native-elements'
+
 export default class App extends NextApp {
   static async getInitialProps({Component, router, ctx}) {
     let pageProps = {}
@@ -17,7 +19,14 @@ export default class App extends NextApp {
 
     return (
       <Container>
-        <Component {...pageProps} />
+        <ThemeProvider>
+          <Header
+            // leftComponent={{icon: 'menu', color: '#fff'}}
+            centerComponent={{text: 'XMPP.js', style: {color: '#fff'}}}
+            rightComponent={{icon: 'home', color: '#fff'}}
+          />
+          <Component {...pageProps} />
+        </ThemeProvider>
       </Container>
     )
   }

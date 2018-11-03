@@ -1,0 +1,25 @@
+return {
+	["affiliations"] = {
+		["client@localhost"] = "owner";
+	};
+	["config"] = {
+		["payload_type"] = "";
+		["persist_items"] = true;
+		["description"] = "dfgdfgdfg";
+		["access_model"] = "open";
+		["notify_items"] = true;
+		["notification_type"] = "headline";
+		["publish_model"] = "open";
+		["notify_retract"] = true;
+		["notify_delete"] = true;
+		["max_items"] = 200;
+		["include_payload"] = true;
+		["title"] = "dgdfgdf";
+	};
+	["name"] = "9675c218-0b08-4bc0-a088-308512a0e541";
+	["subscribers"] = {
+		["client@localhost"] = {
+			["pubsub#include_body"] = true;
+		};
+	};
+};

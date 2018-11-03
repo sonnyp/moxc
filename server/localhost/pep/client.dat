@@ -1,0 +1,48 @@
+return {
+	["4e468fd9-33ab-4b22-b090-719d8d3c17b2"] = {
+		["config"] = {
+			["payload_type"] = "";
+			["persist_items"] = true;
+			["description"] = "";
+			["access_model"] = "open";
+			["notify_items"] = true;
+			["notification_type"] = "headline";
+			["publish_model"] = "open";
+			["notify_retract"] = true;
+			["notify_delete"] = true;
+			["max_items"] = 500;
+			["include_payload"] = true;
+			["title"] = "p889789";
+		};
+		["subscribers"] = {
+			["client@localhost"] = {
+				["pubsub#include_body"] = true;
+			};
+		};
+		["affiliations"] = {
+			["client@localhost"] = "owner";
+		};
+		["name"] = "4e468fd9-33ab-4b22-b090-719d8d3c17b2";
+	};
+	["e4f5db57-6094-4872-b1f6-3e86f9eae0ad"] = {
+		["subscribers"] = {};
+		["config"] = {
+			["payload_type"] = "";
+			["persist_items"] = true;
+			["description"] = "";
+			["access_model"] = "presence";
+			["notify_items"] = true;
+			["notification_type"] = "headline";
+			["publish_model"] = "publishers";
+			["notify_retract"] = true;
+			["notify_delete"] = true;
+			["max_items"] = 50;
+			["include_payload"] = true;
+			["title"] = "50";
+		};
+		["name"] = "e4f5db57-6094-4872-b1f6-3e86f9eae0ad";
+		["affiliations"] = {
+			["client@localhost"] = "owner";
+		};
+	};
+};

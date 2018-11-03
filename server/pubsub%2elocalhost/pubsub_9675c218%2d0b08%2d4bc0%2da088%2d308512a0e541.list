@@ -1,0 +1,48 @@
+item({
+	{
+		"dgdgfdf";
+		["attr"] = {
+			["xmlns"] = "http://www.w3.org/2005/Atom";
+		};
+		["name"] = "title";
+	};
+	{
+		"dfgdfg";
+		["attr"] = {
+			["xmlns"] = "http://www.w3.org/2005/Atom";
+		};
+		["name"] = "content";
+	};
+	["when"] = 1541247317;
+	["attr"] = {
+		["stamp_legacy"] = "20181103T12:15:17";
+		["stamp"] = "2018-11-03T12:15:17Z";
+		["xmlns"] = "http://www.w3.org/2005/Atom";
+	};
+	["key"] = "c4b2374e-21fc-4168-aacf-032d50e9b372";
+	["name"] = "entry";
+});
+item({
+	{
+		"23523543";
+		["attr"] = {
+			["xmlns"] = "http://www.w3.org/2005/Atom";
+		};
+		["name"] = "title";
+	};
+	{
+		"gg";
+		["attr"] = {
+			["xmlns"] = "http://www.w3.org/2005/Atom";
+		};
+		["name"] = "content";
+	};
+	["when"] = 1541247351;
+	["key"] = "155bfeca-0003-4c7f-b6bf-ced56ff96974";
+	["name"] = "entry";
+	["attr"] = {
+		["stamp_legacy"] = "20181103T12:15:51";
+		["stamp"] = "2018-11-03T12:15:51Z";
+		["xmlns"] = "http://www.w3.org/2005/Atom";
+	};
+});

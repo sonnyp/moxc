@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {Text, View, Button} from 'react-native'
 
-import {Link} from '../routes'
+import {online, xml, pubsub} from '../xmpp'
+import {Link, Router} from '../routes'
 import styles from '../styles'
 
 export default class Node extends Component {
@@ -9,8 +10,10 @@ export default class Node extends Component {
     return query
   }
 
-  onPressDelete() => {
-
+  onPressDelete = async () => {
+    await online()
+    await pubsub.delete(this.props)
+    Router.pushRoute('nodes', {to: this.props.to})
   }
 
   render() {

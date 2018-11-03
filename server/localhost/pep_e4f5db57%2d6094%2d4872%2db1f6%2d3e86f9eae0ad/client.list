@@ -1,0 +1,24 @@
+item({
+	{
+		"foobar";
+		["attr"] = {
+			["xmlns"] = "http://www.w3.org/2005/Atom";
+		};
+		["name"] = "title";
+	};
+	{
+		"sdfsdfsfd";
+		["attr"] = {
+			["xmlns"] = "http://www.w3.org/2005/Atom";
+		};
+		["name"] = "content";
+	};
+	["when"] = 1541255996;
+	["key"] = "4b0758b5-878f-46b6-8bb6-c30f23ccdf07";
+	["name"] = "entry";
+	["attr"] = {
+		["stamp_legacy"] = "20181103T14:39:56";
+		["stamp"] = "2018-11-03T14:39:56Z";
+		["xmlns"] = "http://www.w3.org/2005/Atom";
+	};
+});

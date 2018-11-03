@@ -1,9 +1,7 @@
-'use strict'
-
-import {FlatList, View, Text} from 'react-native'
+import {View} from 'react-native'
+import {Text} from 'react-native-elements'
 
 import styles from '../styles'
-import {Link} from '../routes'
 
 export default function AtomEntry(props) {
   const {entry} = props
@@ -14,9 +12,9 @@ export default function AtomEntry(props) {
 
   return (
     <View style={styles.container}>
-      <Text>Title</Text>
+      <Text label>Title</Text>
       <Text>{title}</Text>
-      <Text>Content</Text>
+      <Text label>Content</Text>
       <Text>{content}</Text>
     </View>
   )

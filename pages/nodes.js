@@ -24,11 +24,6 @@ export default class Nodes extends Component {
   async updateNodes() {
     const nodes = (await pubsub.nodes(this.props)).children
 
-    // console.log(await pubsub.getOwnSubscriptions())
-    // try {
-    //   console.log(await pubsub.getOwnAffiliations())
-    // } catch (err) {}
-
     this.setState({
       nodes,
     })

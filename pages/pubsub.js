@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Text, View, Button} from 'react-native'
+import {View} from 'react-native'
+import {Text, Button} from 'react-native-elements'
 
 import {Link} from '../routes'
 import styles from '../styles'
@@ -12,7 +13,7 @@ export default class Pubsub extends Component {
   render() {
     return (
       <View style={{...styles.container}}>
-        <Text style={styles.header}>Pubsub</Text>
+        <Text h1>Pubsub</Text>
         <Link route="nodes" params={this.props}>
           <a>
             <Button title={'Nodes'} />
@@ -23,24 +24,19 @@ export default class Pubsub extends Component {
             <Button title={'Create'} />
           </a>
         </Link>
-        {/* <Link route="affiliations" params={this.props}>
+        <Link route="ownAffiliations" params={this.props}>
           <a>
             <Button title={'Affiliations'} />
           </a>
-        </Link> */}
-        {/* <Link route="subscriptions" params={this.props}>
+        </Link>
+        <Link route="ownSubscriptions" params={this.props}>
           <a>
             <Button title={'Subscriptions'} />
-          </a>
-        </Link> */}
-        <Link route="info" params={this.props}>
-          <a>
-            <Button title={'Info'} />
           </a>
         </Link>
         <Link route="info" params={this.props}>
           <a>
-            <Button title={'Subscribe'} />
+            <Button title={'Info'} />
           </a>
         </Link>
       </View>

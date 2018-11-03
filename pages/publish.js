@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Text, View, Button, TextInput} from 'react-native'
+import {View, Button, TextInput} from 'react-native'
+import {Text} from 'react-native-elements'
 
 import {online, xml, pubsub} from '../xmpp'
 import styles from '../styles'
@@ -51,7 +52,7 @@ export default class Publish extends Component {
 
     return (
       <View style={{...styles.container}}>
-        <Text style={styles.header}>Publish</Text>
+        <Text h1>Publish</Text>
         <Text>Title</Text>
         <TextInput
           onChangeText={title => this.setState({title})}

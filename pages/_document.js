@@ -1,6 +1,7 @@
 import Document, {Head, Main, NextScript} from 'next/document'
 import React from 'react'
 import {AppRegistry} from 'react-native-web'
+import iconFont from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 
 // Force Next-generated DOM elements to fill their parent's height
 const normalizeNextElements = `
@@ -11,6 +12,11 @@ const normalizeNextElements = `
   }
 `
 
+const materialIconsFontStyles = `@font-face {
+  src: url(${iconFont});
+  font-family: 'MaterialIcons';
+}`
+
 export default class MyDocument extends Document {
   static async getInitialProps({renderPage}) {
     AppRegistry.registerComponent('Main', () => Main)
@@ -18,6 +24,7 @@ export default class MyDocument extends Document {
     const page = renderPage()
     const styles = [
       <style dangerouslySetInnerHTML={{__html: normalizeNextElements}} />,
+      <style dangerouslySetInnerHTML={{__html: materialIconsFontStyles}} />,
       getStyleElement(),
     ]
     return {...page, styles: React.Children.toArray(styles)}
