@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {View} from 'react-native'
-import {Text, Button} from 'react-native-elements'
+import {View, Button} from 'react-native'
+import {Text} from 'react-native-elements'
 
 import {Link} from '../routes'
 import styles from '../styles'

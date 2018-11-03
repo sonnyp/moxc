@@ -8,8 +8,8 @@ import pubsubCaller from './pubsub/caller'
 const xmpp = client({
   service: 'ws://localhost:5280/xmpp-websocket',
   domain: 'localhost',
-  username: 'client',
-  password: 'foobar',
+  // username: 'client',
+  // password: 'foobar',
 })
 
 const entity = xmpp

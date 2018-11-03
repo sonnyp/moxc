@@ -1,2 +1,5 @@
 .next
 node_modules
+server/prosody.log
+server/prosody.err
+server/prosody.pid

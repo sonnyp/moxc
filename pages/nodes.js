@@ -37,7 +37,7 @@ export default class Nodes extends Component {
         <Text style={styles.header}>Nodes</Text>
         <Link route="create" params={this.props}>
           <a>
-            <Button title={'Create node'} />
+            <Button title="Create node" />
           </a>
         </Link>
         <DiscoNodesList nodes={nodes} />

@@ -1,0 +1,10 @@
+item({
+	["when"] = 1541267229;
+	["key"] = "0";
+	["name"] = "mood";
+	["attr"] = {
+		["stamp_legacy"] = "20181103T17:47:09";
+		["stamp"] = "2018-11-03T17:47:09Z";
+		["xmlns"] = "http://jabber.org/protocol/mood";
+	};
+});
