@@ -14,7 +14,7 @@ export default function DiscoNodesList(props) {
       renderItem={({item}) => {
         const {name, node, jid} = item.attrs
         return (
-          <Link route="items" params={{node, to: jid}}>
+          <Link route="node" params={{node, to: jid}}>
             <a>
               <View style={styles.listItem}>
                 <Text>{name || node}</Text>

@@ -7,7 +7,7 @@ import styles from '../styles'
 
 import DataForm from '../components/DataForm'
 
-export default class Create extends Component {
+export default class Subscribe extends Component {
   static getInitialProps({query}) {
     return query
   }
@@ -19,22 +19,22 @@ export default class Create extends Component {
   async componentDidMount() {
     await online()
 
-    this.updateConfiguration()
+    this.fetchData()
   }
 
-  async updateConfiguration() {
+  async fetchData() {
     this.setState({
-      form: await pubsub.getDefaultConfiguration(this.props),
+      form: await pubsub.getSubscriptionOptions(this.props),
     })
   }
 
   async onSubmit(dataForm) {
-    const nodeId = await pubsub.create(this.props, dataForm)
-    Router.pushRoute('node', {...this.props, node: nodeId})
+    await pubsub.subscribe(this.props, dataForm)
+    Router.pushRoute('node', this.props)
   }
 
-  onCancel() {
-    Router.pushRoute('pubsub', this.props)
+  async onCancel() {
+    Router.pushRoute('node', this.props)
   }
 
   render() {
@@ -42,7 +42,7 @@ export default class Create extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Create</Text>
+        <Text style={styles.header}>Subscribe</Text>
         {form && (
           <DataForm
             form={form}

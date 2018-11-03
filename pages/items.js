@@ -33,11 +33,6 @@ export default class Items extends Component {
     return (
       <View style={{...styles.container}}>
         <Text style={styles.header}>Items</Text>
-        <Link route="publish" params={this.props}>
-          <a>
-            <Button title={'Publish new item'} />
-          </a>
-        </Link>
         <PubsubItemsList
           to={this.props.to}
           node={this.props.node}

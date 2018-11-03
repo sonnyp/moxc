@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, Button, FlatList} from 'react-native'
 import {online, xml, pubsub} from '../xmpp'
 import {Link, Router} from '../routes'
 import styles from '../styles'
-import PubsubSubscriptionsList from '../components/PubsubAffiliationsList'
+import PubsubSubscriptionsList from '../components/PubsubSubscriptionsList'
 
 export default class Subscriptions extends Component {
   state = {

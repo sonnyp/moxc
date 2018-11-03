@@ -23,6 +23,10 @@ export default class Publish extends Component {
     online()
   }
 
+  onPressCancel = () => {
+    Router.pushRoute('node', this.props)
+  }
+
   onPressPublish = async () => {
     const {title, content} = this.state
 
@@ -60,7 +64,10 @@ export default class Publish extends Component {
           value={content}
           style={styles.input}
         />
-        <Button onPress={this.onPressPublish} title={'Publish'} />
+        <View style={{flexDirection: 'row'}}>
+          <Button onPress={this.onPressCancel} title="Cancel" />
+          <Button onPress={this.onPressPublish} title="Publish" />
+        </View>
       </View>
     )
   }

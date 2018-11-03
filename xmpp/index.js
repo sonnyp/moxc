@@ -12,10 +12,12 @@ const xmpp = client({
   password: 'foobar',
 })
 
+const entity = xmpp
+
 const {iqCaller, middleware} = xmpp
 const disco = serviceDiscovery({iqCaller})
 const adHoc = adHocCommands({iqCaller, disco})
-const pubsub = pubsubCaller({iqCaller, middleware, disco})
+const pubsub = pubsubCaller({iqCaller, middleware, disco, entity})
 
 debug(xmpp, true)
 
