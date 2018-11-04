@@ -40,9 +40,9 @@ export default class App extends NextApp {
     this.setState({loginVisible: true})
   }
 
-  async login({address, password, remember}) {
+  async login({address, password, remember, service}) {
     const [username, domain] = address.split('@')
-    xmpp.options.service = domain
+    xmpp.options.service = service
     xmpp.options.domain = domain
     setCredentials({username, password})
     await xmpp.start()
@@ -53,12 +53,15 @@ export default class App extends NextApp {
       domain,
     })
     if (remember) {
-      localStorage.setItem('credentials', JSON.stringify({address, password}))
+      localStorage.setItem(
+        'credentials',
+        JSON.stringify({address, password, service})
+      )
     }
   }
 
-  onLogin = async ({address, password, remember}) => {
-    this.login({address, password, remember})
+  onLogin = async ({address, password, remember, service}) => {
+    this.login({address, password, remember, service})
   }
 
   render() {

@@ -70,9 +70,9 @@ class DataForm extends Component {
                   selectedValue={this.state[key] || ''}
                   onValueChange={value => this.setState({[key]: value})}
                 >
-                  ><Picker.Item label="" value="" />
-                  {options.map(({label, value}) => {
-                    return <Picker.Item label={label} value={value} />
+                  ><Picker.Item label="" value="" key="" />
+                  {options.map(({label, value}, idx) => {
+                    return <Picker.Item key={idx} label={label} value={value} />
                   })}
                 </Picker>
               </View>

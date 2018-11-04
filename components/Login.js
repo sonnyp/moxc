@@ -7,6 +7,7 @@ export default class Login extends Component {
     remember: true,
     address: '',
     password: '',
+    service: 'ws://xmppjs.org:5280/xmpp-websocket',
   }
 
   render() {
