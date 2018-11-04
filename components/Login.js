@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {View} from 'react-native'
-import {Card, Input, Button, Icon} from 'react-native-elements'
+import {View, Switch} from 'react-native'
+import {Card, Input, Button, Icon, Text} from 'react-native-elements'
 
 export default class Login extends Component {
   state = {
+    remember: true,
     address: '',
     password: '',
   }
@@ -26,6 +27,11 @@ export default class Login extends Component {
           value={this.state.password}
           onChangeText={password => this.setState({password})}
           leftIcon={<Icon name="lock" size={24} color="black" />}
+        />
+        <Text>Remember me</Text>
+        <Switch
+          value={this.state.remember}
+          onValueChange={remember => this.setState({remember})}
         />
         <Button title="Login" onPress={() => onLogin(this.state)} />
       </View>

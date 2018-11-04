@@ -1,14 +1,14 @@
 import React from 'react'
 import NextApp, {Container} from 'next/app'
 
-import {ThemeProvider, Header, Icon} from 'react-native-elements'
+import {ThemeProvider, Header, Icon, Text} from 'react-native-elements'
 import {Link} from '../routes'
 
 import Modal from 'modal-react-native-web'
 
 import Login from '../components/Login'
 
-import {xmpp} from '../xmpp'
+import {xmpp, setCredentials} from '../xmpp'
 
 export default class App extends NextApp {
   static async getInitialProps({Component, router, ctx}) {
@@ -22,24 +22,66 @@ export default class App extends NextApp {
   }
 
   state = {
-    loginVisible: xmpp.status === 'offline',
+    loginVisible: false,
+    username: '',
+    address: '',
   }
 
-  onLogin = ({address, password}) => {
-    alert(address)
+  async componentDidMount() {
+    try {
+      const credentials = JSON.parse(localStorage.getItem('credentials'))
+      if (credentials) {
+        await this.login(credentials)
+        return
+      }
+    } catch (err) {
+      console.error(err)
+    }
+    this.setState({loginVisible: true})
+  }
+
+  async login({address, password, remember}) {
+    const [username, domain] = address.split('@')
+    xmpp.options.service = domain
+    xmpp.options.domain = domain
+    setCredentials({username, password})
+    await xmpp.start()
+    this.setState({
+      loginVisible: false,
+      username,
+      address,
+      domain,
+    })
+    if (remember) {
+      localStorage.setItem('credentials', JSON.stringify({address, password}))
+    }
+  }
+
+  onLogin = async ({address, password, remember}) => {
+    this.login({address, password, remember})
   }
 
   render() {
     const {Component, pageProps} = this.props
     const to = pageProps.to || 'foobar'
+    const {address, loginVisible, username, domain} = this.state
 
     return (
       <Container>
         <ThemeProvider>
           <Header
+            leftComponent={
+              address && (
+                <Link route="pubsub" params={{to: address}}>
+                  <a>
+                    <Text style={{color: 'white'}}>{username}</Text>
+                  </a>
+                </Link>
+              )
+            }
             centerComponent={{text: 'XMPP.js', style: {color: '#fff'}}}
             rightComponent={
-              <Link route="pubsub" params={{to}}>
+              <Link route="pubsub" params={{to: domain || to}}>
                 <a>
                   <Icon name="home" color="white" />
                 </a>
@@ -50,10 +92,7 @@ export default class App extends NextApp {
             ariaHideApp={false}
             animationType="fade"
             transparent={true}
-            visible={true}
-            onDismiss={() => {
-              alert('Modal has been closed.')
-            }}
+            visible={loginVisible}
           >
             <Login onLogin={this.onLogin} />
           </Modal>

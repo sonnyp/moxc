@@ -29,9 +29,9 @@
     "yarn": ">= 1.0.0"
   },
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "./server/ctl start && nodemon --watch routes.js,server.js server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "./server/ctl start && next start"
   },
   "devDependencies": {
     "eslint-plugin-react": "^7.11.1",
