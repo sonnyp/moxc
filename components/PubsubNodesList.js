@@ -3,7 +3,7 @@ import {ListItem} from 'react-native-elements'
 
 import {Link} from '../routes'
 
-export default function DiscoNodesList(props) {
+export default function PubsubNodesList(props) {
   const {nodes} = props
   return (
     <FlatList

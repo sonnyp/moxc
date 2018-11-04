@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, Button, FlatList} from 'react-native'
 import {online, xml, pubsub} from '../xmpp'
 import {Link, Router} from '../routes'
 import styles from '../styles'
-import DiscoNodesList from '../components/DiscoNodesList'
+import PubsubNodesList from '../components/PubsubNodesList'
 
 export default class Nodes extends Component {
   state = {
@@ -40,7 +40,7 @@ export default class Nodes extends Component {
             <Button title="Create node" />
           </a>
         </Link>
-        <DiscoNodesList nodes={nodes} />
+        <PubsubNodesList nodes={nodes} />
       </View>
     )
   }

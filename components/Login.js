@@ -10,6 +10,8 @@ export default class Login extends Component {
   }
 
   render() {
+    const {remember, address, password} = this.state
+
     const {onLogin} = this.props
     return (
       // can't type in input in Card for some reason
@@ -20,6 +22,7 @@ export default class Login extends Component {
           value={this.state.address}
           onChangeText={address => this.setState({address})}
           leftIcon={<Icon name="person" size={24} color="black" />}
+          textContentType="username"
         />
         <Input
           label="Password"
@@ -27,6 +30,7 @@ export default class Login extends Component {
           value={this.state.password}
           onChangeText={password => this.setState({password})}
           leftIcon={<Icon name="lock" size={24} color="black" />}
+          textContentType="password"
         />
         <Text>Remember me</Text>
         <Switch
