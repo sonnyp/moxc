@@ -1,4 +1,6 @@
 import React from 'react'
+import {AsyncStorage} from 'react-native'
+
 import NextApp, {Container} from 'next/app'
 
 import {ThemeProvider, Header, Icon, Text} from 'react-native-elements'
@@ -29,9 +31,9 @@ export default class App extends NextApp {
 
   async componentDidMount() {
     try {
-      const credentials = JSON.parse(localStorage.getItem('credentials'))
+      const credentials = JSON.parse(await AsyncStorage.getItem('credentials'))
       if (credentials) {
-        await this.login(credentials)
+        await this.onLogin(credentials)
         return
       }
     } catch (err) {
@@ -40,7 +42,7 @@ export default class App extends NextApp {
     this.setState({loginVisible: true})
   }
 
-  async login({address, password, remember, service}) {
+  async onLogin({address, password, trust, service}) {
     const [username, domain] = address.split('@')
     xmpp.options.service = service
     xmpp.options.domain = domain
@@ -52,16 +54,16 @@ export default class App extends NextApp {
       address,
       domain,
     })
-    if (remember) {
-      localStorage.setItem(
-        'credentials',
-        JSON.stringify({address, password, service})
-      )
+    if (trust) {
+      try {
+        await AsyncStorage.setItem(
+          'credentials',
+          JSON.stringify({address, password, service})
+        )
+      } catch (err) {
+        console.error(err)
+      }
     }
-  }
-
-  onLogin = async ({address, password, remember, service}) => {
-    this.login({address, password, remember, service})
   }
 
   render() {

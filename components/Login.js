@@ -4,14 +4,14 @@ import {Card, Input, Button, Icon, Text} from 'react-native-elements'
 
 export default class Login extends Component {
   state = {
-    remember: true,
+    trust: true,
     address: '',
     password: '',
     service: 'ws://xmppjs.org:5280/xmpp-websocket',
   }
 
   render() {
-    const {remember, address, password} = this.state
+    const {trust, address, password} = this.state
 
     const {onLogin} = this.props
     return (
@@ -20,7 +20,7 @@ export default class Login extends Component {
         <Input
           label="Address"
           keyboardType="email-address"
-          value={this.state.address}
+          value={address}
           onChangeText={address => this.setState({address})}
           leftIcon={<Icon name="person" size={24} color="black" />}
           textContentType="username"
@@ -28,16 +28,13 @@ export default class Login extends Component {
         <Input
           label="Password"
           secureTextEntry
-          value={this.state.password}
+          value={password}
           onChangeText={password => this.setState({password})}
           leftIcon={<Icon name="lock" size={24} color="black" />}
           textContentType="password"
         />
-        <Text>Remember me</Text>
-        <Switch
-          value={this.state.remember}
-          onValueChange={remember => this.setState({remember})}
-        />
+        <Text>Trust this device</Text>
+        <Switch value={trust} onValueChange={trust => this.setState({trust})} />
         <Button title="Login" onPress={() => onLogin(this.state)} />
       </View>
     )
