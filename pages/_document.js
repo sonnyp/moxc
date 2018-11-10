@@ -36,6 +36,7 @@ export default class MyDocument extends Document {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <style>{`a { color: inherit; text-decoration: inherit; }`}</style>
+          <title>XMPP browser</title>
         </Head>
         <body style={{height: '100%'}}>
           <Main />

@@ -1,16 +1,20 @@
-import {FlatList} from 'react-native'
 import {ListItem} from 'react-native-elements'
 
+import {Link} from '../routes'
+
 export default function DiscoFeaturesList(props) {
-  const {features} = props
-  return (
-    <FlatList
-      data={features}
-      keyExtractor={feature => feature.attrs.var}
-      renderItem={({item}) => {
-        const {category, type} = item.attrs
-        return <ListItem title={item.attrs.var} />
-      }}
-    />
-  )
+  const {features, to} = props
+  return features.map(feature => {
+    return (
+      <Link
+        route="entity"
+        key={feature.attrs.var}
+        params={{to: to, node: feature.attrs.var}}
+      >
+        <a>
+          <ListItem chevron title={feature.attrs.var} />
+        </a>
+      </Link>
+    )
+  })
 }

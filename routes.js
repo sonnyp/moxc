@@ -1,6 +1,7 @@
 const routes = require('next-routes')
 
 module.exports = routes()
+  .add('entity', '/:to', 'entity')
   .add('pubsub', '/:to/pubsub', 'pubsub')
   .add('create', '/:to/pubsub/create', 'create')
   .add('nodes', '/:to/pubsub/nodes', 'nodes')

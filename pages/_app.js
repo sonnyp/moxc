@@ -3,7 +3,13 @@ import {AsyncStorage} from 'react-native'
 
 import NextApp, {Container} from 'next/app'
 
-import {ThemeProvider, Header, Icon, Text} from 'react-native-elements'
+import {
+  ThemeProvider,
+  Header,
+  Icon,
+  Text,
+  ButtonGroup,
+} from 'react-native-elements'
 import {Link} from '../routes'
 
 import Modal from 'modal-react-native-web'
@@ -77,14 +83,14 @@ export default class App extends NextApp {
           <Header
             leftComponent={
               address && (
-                <Link route="pubsub" params={{to: address}}>
+                <Link route="entity" params={{to: address}}>
                   <a>
-                    <Text style={{color: 'white'}}>{username}</Text>
+                    <Text style={{color: 'white'}}>{address}</Text>
                   </a>
                 </Link>
               )
             }
-            centerComponent={{text: 'XMPP.js', style: {color: '#fff'}}}
+            centerComponent={{text: 'XMPP browser', style: {color: '#fff'}}}
             rightComponent={
               <Link route="pubsub" params={{to: domain || to}}>
                 <a>
@@ -102,6 +108,12 @@ export default class App extends NextApp {
             <Login onLogin={this.onLogin} />
           </Modal>
           <Component {...pageProps} />
+          <ButtonGroup
+            onPress={this.updateIndex}
+            selectedIndex={1}
+            buttons={['Hello', 'World', 'Buttons']}
+            // containerStyle={{height: 100}}
+          />
         </ThemeProvider>
       </Container>
     )
